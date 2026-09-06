@@ -12,17 +12,21 @@ string encrypt(string charachters)
 
     while (i != char_len)
     {
-
         if (charachters[i] == ' ')
         {
             charachters_list.push_back(temp_char);
             temp_char = "";
-            i = i + 1;
-        };
+        }
+        else
+        {
+            temp_char = temp_char + charachters[i];
+        }
 
-        temp_char = temp_char + charachters[i];
         i = i + 1;
     };
+
+    charachters_list.push_back(temp_char);
+
     // utilisation
     // on va utiliser un ancien systheme que je fesait avec clf c est comme du morse custom mais le f est utiliser pour marquer la fin de la lettre
     // il faut maintenant pour le programme checker les lettres uniquent
@@ -32,118 +36,115 @@ string encrypt(string charachters)
     //
     // Nico
 
-    // checker pour les lettres qui apparaissent 2 fois
+    // ici on va faire une liste avec toutes les lettres qui apparaissent exactement une fois
+    vector<char> unique_char;
+
     i = 0;
-    vector<char> charachter_repetition;
+
     while (i != charachters.size())
     {
-        // faut faire 2 boucles
+        int count = 0;
         int a = 0;
+
         while (a != charachters.size())
         {
             if (charachters[i] == charachters[a])
             {
+                count = count + 1;
+            }
 
-                // peut etre refaire une 3eme boucle pour checker si le char est dans la liste
-                int n = 0;
-                bool is_on_list = false;
-                while (n != charachter_repetition.size())
-                {
-                    if (charachter_repetition[n] == charachters[i])
-                    {
-                        is_on_list = true;
-                    };
-                    n = n + 1;
-                };
-                if (is_on_list == true)
-                {
-                    charachter_repetition.push_back(charachters[i]);
-                }
-                // j ai optimiser pour que quand on va faire pour check les lettres pas presente on ai que la copie une fois des charachters en double
-                // ici apres je vais devoir faire une autre boucle while pour checker les elements present une fois je vais corriger apres les listes de mots et de lettres
-                // il faut aussi que je fasse pour checker le lettres de l alphabet a coté et tt
-            };
-        };
-        // fin du while
-        i = i + 1;
-    };
-    // ici la fonction que je vais mettre va faire une liste avec tout les lettres uniques
-    i = 0;
-    bool is_unique = true;
-    vector<char> unique_char;
-    while (i != charachters.size())
-    {
-        // ici je dois faire une boucle pour checker individuelement les lettres et si elles sont presentes dans la sous liste des lettres doubles
-        int a = 0;
-        while (a != charachter_repetition.size())
-        {
-            // je check les elements de la liste
-            if (charachters[i] == charachter_repetition[a])
-            {
-                // si ils y est on le note comme false si ça arrive sur true bah on ajoute le char apres
-                is_unique = false;
-            };
-        };
-        // ici je vais devoir recheck si le char est unique ou non pr l ajouter sur la liste
-        if (is_unique == true)
+            a = a + 1;
+        }
+
+        // On ajoute seulement les lettres qui apparaissent une fois
+        // et on ignore les espaces
+        if (count == 1 && charachters[i] != ' ')
         {
             unique_char.push_back(charachters[i]);
-        };
-        is_unique = true;
+        }
 
         i = i + 1;
-    };
-    // ici maintenant que j ai une liste de charachters unique je vais faire apres regarder lequels appartiennent a quels mots et apres regarder pour elargir la palette des char
-    // je vais checker quels lettes uniquent ppariennent  quel mot
+    }
+
+    // ici maintenant que j ai une liste de charachters unique
+    // je vais faire apres regarder lesquels appartiennent a quels mots
+    // et apres regarder pour elargir la palette des char
+
+    // je vais checker quels lettres uniques appartiennent a quel mot
     i = 0;
+
     vector<string> unique_char_list = {"", "", "", "", "", ""};
+
     while (i != charachters_list.size())
     {
         int a = 0;
+
         while (a != charachters_list[i].size())
         {
             int n = 0;
             bool is_present = false;
+
             while (n != unique_char.size())
             {
                 // ici il va falloir donc checker les charachters
-                // il faut checker si la lettre apparait pas dans le bail alors il va falloir l ajouter das une sous liste avec comme index le numero duu mot
+                // il faut checker si la lettre apparait pas dans le bail
+                // alors il va falloir l ajouter dans une sous liste
+                // avec comme index le numero du mot
+
                 if (charachters_list[i][a] == unique_char[n])
                 {
                     is_present = true;
-                };
+                }
+
                 n = n + 1;
-            };
-            if (is_present == false)
+            }
+
+            if (is_present == true)
             {
-                // ici vu que l element a bien ete cofirmé comme unique on va l ajouter a
+                // ici vu que l element a bien ete confirmé comme unique
+                // on va l ajouter a la liste du mot correspondant
                 unique_char_list[i] = unique_char_list[i] + charachters_list[i][a];
-            };
+            }
+
             a = a + 1;
-        };
+        }
 
         i = i + 1;
-    };
-    // maintenant quej ai une liste avec les elements et tout il va falloir merge le 0 avec 1 le 2 avk 3 etc
-    //
-    //
-    //
-    return charachters;
-};
+    }
 
-string paraphraser(string phrase)
-{
+    // maintenant que j ai une liste avec les elements et tout
+    // il va falloir merge le 0 avec 1 le 2 avk 3 etc
 
-    encrypt(phrase);
-    return phrase;
+    vector<string> dict_list = {
+        unique_char_list[0] + unique_char_list[1],
+        unique_char_list[2] + unique_char_list[3],
+        unique_char_list[4] + unique_char_list[5]};
+
+    i = 0;
+
+    while (i != dict_list.size())
+    {
+        cout << i;
+        cout << dict_list[i];
+        cout << "\n";
+        // Ajouter un espace entre les groupes
+        if (i != dict_list.size() - 1)
+        {
+            cout << " ";
+        }
+
+        i = i + 1;
+    }
+
+    return dict_list[1];
 };
 
 int main()
 {
     string phrase;
-    cin >> phrase;
-    //
+    getline(cin, phrase);
 
-    phrase = paraphraser(phrase);
-    cout << phrase;
+    phrase = encrypt(phrase);
+
+    cout << endl;
 }
