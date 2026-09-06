@@ -94,12 +94,40 @@ string encrypt(string charachters)
         i = i + 1;
     };
     // ici maintenant que j ai une liste de charachters unique je vais faire apres regarder lequels appartiennent a quels mots et apres regarder pour elargir la palette des char
+    // je vais checker quels lettes uniquent ppariennent  quel mot
+    i = 0;
+    vector<string> unique_char_list = {"", "", "", "", "", ""};
+    while (i != charachters_list.size())
+    {
+        int a = 0;
+        while (a != charachters_list[i].size())
+        {
+            int n = 0;
+            bool is_present = false;
+            while (n != unique_char.size())
+            {
+                // ici il va falloir donc checker les charachters
+                // il faut checker si la lettre apparait pas dans le bail alors il va falloir l ajouter das une sous liste avec comme index le numero duu mot
+                if (charachters_list[i][a] == unique_char[n])
+                {
+                    is_present = true;
+                };
+                n = n + 1;
+            };
+            if (is_present == false)
+            {
+                // ici vu que l element a bien ete cofirmé comme unique on va l ajouter a
+                unique_char_list[i] = unique_char_list[i] + charachters_list[i][a];
+            };
+            a = a + 1;
+        };
 
-    // mettre les mots dans 3 grp
-    vector<string> list1 = {charachters_list[0], charachters_list[2]};
-    vector<string> list2 = {charachters_list[2], charachters_list[3]};
-    vector<string> list3 = {charachters_list[4], charachters_list[5]};
-
+        i = i + 1;
+    };
+    // maintenant quej ai une liste avec les elements et tout il va falloir merge le 0 avec 1 le 2 avk 3 etc
+    //
+    //
+    //
     return charachters;
 };
 
