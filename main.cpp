@@ -136,6 +136,55 @@ string encrypt(string charachters)
         i = i + 1;
     }
 
+    //
+    // maintenant il faut trouver les differentes lettres qui irons en plus dans le dictionnaire
+    //
+    vector<char> dict = {
+        // minuscules
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+
+        // majuscules
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+
+        // chiffres
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+
+        // caractères spéciaux ASCII
+        ' ', '!', '"', '#', '$', '%', '&', '\'',
+        '(', ')', '*', '+', ',', '-', '.', '/',
+        ':', ';', '<', '=', '>', '?', '@',
+        '[', ']', '^', '_', '`',
+        '{', '|', '}', '~'};
+    vector<int> dict_list_index;
+    // il faut maintenant trouver l indexe de toutes les lettres et les mettres dans une autre liste
+    i = 0;
+    while (i != dict_list.size())
+    {
+        // ici la boucle est la pour dictilist
+
+        // il faut refaire une 3eme boucle
+        int n = 0;
+        while (n != dict_list[i].size())
+        {
+
+            int a = 0;
+            while (a != dict.size())
+            {
+                if (dict_list[i][n] == dict[a])
+                {
+                    dict_list_index.push_back(a);
+                };
+                a = a + 1;
+            };
+
+            n = n + 1;
+        };
+
+        i = i + 1;
+    };
+
     return dict_list[1];
 };
 
