@@ -184,7 +184,23 @@ string encrypt(string charachters)
 
         i = i + 1;
     };
+    // maintenant que j ai les indexs il va falloir que je fasse une liste pour c une autre pour t et une pour f
+    vector<char> c;
+    vector<char> t;
+    vector<char> f;
+    // faire au début de f il faut d abord trouver le size du dict list le plus petit
+    int n = 0;
+    int shortest_dict = 0;
+    while (n != dict_list.size())
+    {
+        if (dict_list[n].size() < dict_list[shortest_dict].size())
+        {
+            shortest_dict = n;
+        };
 
+        n = n + 1;
+    };
+    cout << "shortest dict index: " << shortest_dict << "name: " << dict_list[shortest_dict];
     return dict_list[1];
 };
 
