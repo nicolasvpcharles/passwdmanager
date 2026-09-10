@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 using namespace std;
-
 string encrypt(string charachters)
 {
     vector<string> charachters_list;
@@ -152,7 +151,7 @@ string encrypt(string charachters)
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 
         // caractères spéciaux ASCII
-        ' ', '!', '"', '#', '$', '%', '&', '\'',
+        ' ', '!', '"', '#', '$', '%', '&',
         '(', ')', '*', '+', ',', '-', '.', '/',
         ':', ';', '<', '=', '>', '?', '@',
         '[', ']', '^', '_', '`',
@@ -185,9 +184,6 @@ string encrypt(string charachters)
         i = i + 1;
     };
     // maintenant que j ai les indexs il va falloir que je fasse une liste pour c une autre pour t et une pour f
-    vector<char> c;
-    vector<char> t;
-    vector<char> f;
     // faire au début de f il faut d abord trouver le size du dict list le plus petit
     int n = 0;
     int shortest_dict = 0;
@@ -201,6 +197,123 @@ string encrypt(string charachters)
         n = n + 1;
     };
     cout << "shortest dict index: " << shortest_dict << "name: " << dict_list[shortest_dict];
+    // maintenant que je connais le shortest dict je vais faire une fontion qui va m aider a pouvoir trouver le meilleur ordre
+    // je vais faire pr que ça prenne le max de charachters vers la droite juque l arrivée de un autre éléemnt qui est dans la liste des char uniques
+    // dict = dicti_list
+    // dataset=le dataset des elements de la liste
+    // char index = l indexe des charachters
+    // jsp il y a un beug avec la fonction je vais devoir malheureusement juste imprimer 3 fois la mm fonction nsmr
+    //
+    i = 0;
+    string f = dict_list[shortest_dict];
+    // je vais mtn attribuer les autres elements
+    if (shortest_dict = 0)
+    {
+        string c = dict_list[1];
+        string t = dict_list[2];
+    };
+    if (shortest_dict = 1)
+    {
+        string c = dict_list[0];
+        string t = dict_list[2];
+    };
+    if (shortest_dict = 2)
+    {
+        string c = dict_list[0];
+        string t = dict_list[1];
+    };
+    //
+    // code generer par ia car ça fait 3 jours que je galere a faire une fonction qui marche
+    //
+    for (int i = 0; i < dict_list.size(); i++)
+    {
+        int n = 0;
+
+        while (n < dict_list[i].size())
+        {
+            char current = dict_list[i][n];
+
+            int position = 0;
+
+            while (position < dict.size() && dict[position] != current)
+            {
+                position++;
+            }
+
+            position++;
+
+            while (position < dict.size())
+            {
+                bool found = false;
+
+                for (int k = 0; k < dict_list.size(); k++)
+                {
+                    if (k != i && dict_list[k].find(dict[position]) != string::npos)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found)
+                {
+                    break;
+                }
+
+                if (dict_list[i].find(dict[position]) == string::npos)
+                {
+                    dict_list[i] += dict[position];
+                }
+
+                position++;
+            }
+
+            n++;
+        }
+    }
+
+    for (int i = 0; i < dict_list.size(); i++)
+    {
+        cout << i << ": " << dict_list[i] << endl;
+    }
+
+    // fin du code generer par ia
+    //
+    // maintenant que j ai fais ça je peut enfin commencer a faire le language codé pour l encryption des messages
+    vector<string> morse = {
+        // minuscules
+        "lf", "cf", "llf", "lcf", "clf", "ccf", "lllf", "llcf",
+        "lclf", "lccf", "cllf", "clcf", "cclf", "cccf", "llllf",
+        "lllcf", "llclf", "llccf", "lcllf", "lclcf", "lcclf", "lcccf",
+        "clllf", "cllcf", "clclf", "clccf",
+
+        // majuscules
+        "ccllf", "cclcf", "ccclf", "cccllf", "cccclf",
+        "ccccccf", "lllllf", "llllcf", "lllclf", "lllccf", "llcllf", "llclcf",
+        "llcclf", "llcccf", "llccclf", "llcccclf", "lclllf",
+        "lcllcf", "lclclf", "lclccf", "lccllf", "lcclcf",
+        "lllllllf", "lcccclf", "cllllf", "clllcf",
+
+        // chiffres
+        "cllclf", "cllccf", "clcllf", "clclcf", "clcclf", "clcccf",
+        "cclllf", "ccllcf", "cclclf", "cclccf",
+
+        // caractères spéciaux ASCII
+        "cclcllf", "cclclcf", "cclcclf", "cclcccf",
+        "ccclllf", "cccllcf", "ccclclf", "ccclccf",
+        "ccccllf", "ccccclf", "cccccf",
+        "llllllf", "lllllcf", "llllclf", "llllccf",
+        "lllcllf", "lllclcf", "lllcclf", "lllcccf",
+        "llclllf", "llcllcf", "llclclf", "llclccf",
+        "llccllf", "llcclcf", "llccclf", "llccccf",
+        "lcllllf", "lclllcf", "lcllclf", "lcllccf",
+        "lclcllf", "lclclcf", "lclcclf", "lclcccf",
+        "lcclllf", "lccllcf", "lcclclf", "lcclccf",
+        "lcccllf", "lccclcf", "lcccclf", "lcccccf",
+        "clllllf", "cllllcf", "clllclf", "clllccf",
+        "cllcllf"};
+
+    // le return je dois retourner le output dedans
     return dict_list[1];
 };
 
