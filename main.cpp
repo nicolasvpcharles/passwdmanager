@@ -746,8 +746,95 @@ string decrypt(string charachters, string message)
 
         i = i + 1;
     };
+    // maintenant que on a le message clf il va falloir que je split le bail avec les f pour que je puisse apres bien faire le bail
+    // les prochaines lignes de codes vont split les charachters
+    i = 0;
+    string temp_char_decrypt;
+    vector<string> cl_list;
+    while (i != clf_message.size())
+    {
 
-    return clf_message;
+        if (clf_message[i] == 'f')
+        {
+            cl_list.push_back(temp_char_decrypt);
+            temp_char_decrypt = "";
+        }
+        else
+        {
+            temp_char_decrypt = temp_char_decrypt + clf_message[i];
+        };
+
+        i = i + 1;
+    };
+    // maintenant que j ai tout ça je vais maintenant faire pr changer les clf en lettres
+    vector<string> morse = {
+        // minuscules
+        "l", "c", "ll", "lc", "cl", "cc", "lll", "llc",
+        "lcl", "lcc", "cll", "clc", "ccl", "ccc", "llll",
+        "lllc", "llcl", "llcc", "lcll", "lclc", "lccl", "lccc",
+        "clll", "cllc", "clcl", "clcc",
+
+        // majuscules
+        "ccll", "cclc", "cccl", "cccll", "cccll",
+        "cccccc", "lllll", "llllc", "lllcl", "lllcc", "llcll", "llclc",
+        "llccl", "llccc", "llcccl", "llcccll", "lclll",
+        "lcllc", "lclcl", "lclcc", "lccll", "lcclc",
+        "lllllll", "lcccc", "cllll", "clllc",
+
+        // chiffres
+        "cllcl", "cllcc", "clcll", "clclc", "clccl", "clccc",
+        "cclll", "ccllc", "cclcl", "cclcc",
+
+        // caractères spéciaux ASCII
+        "cclcll", "cclclc", "cclccl", "cclccc",
+        "ccclll", "cccllc", "ccclcl", "ccclcc",
+        "ccccll", "cccccl", "ccccc",
+        "llllll", "lllllc", "llllcl", "llllcc",
+        "lllcll", "lllclc", "lllccl", "lllccc",
+        "llclll", "llcllc", "llclcl", "llclcc",
+        "llccll", "llcclc", "llcccl", "llcccc",
+        "lcllll", "lclllc", "lcllcl", "lcllcc",
+        "lclcll", "lclclc", "lclccl", "lclccc",
+        "lcclll", "lccllc", "lcclcl", "lcclcc",
+        "lcccll", "lccclc", "lccccl", "lccccc",
+        "clllll", "cllllc", "clllcl", "clllcc",
+        "cllcll"};
+    // et mtn les lettres
+    dict = {
+        // minuscules
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+
+        // majuscules
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+
+        // chiffres
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+
+        // caractères spéciaux ASCII
+        ' ', '!', '"', '#', '$', '%', '&',
+        '(', ')', '*', '+', ',', '-', '.', '/',
+        ':', ';', '<', '=', '>', '?', '@',
+        '[', ']', '^', '_', '`',
+        '{', '|', '}', '~'};
+    i = 0;
+    string decrypted_message;
+    while (i != cl_list.size())
+    {
+        n = 0;
+        while (n != morse.size())
+        {
+            if (cl_list[i] == morse[n])
+            {
+                decrypted_message = decrypted_message + dict[n];
+            };
+            n = n + 1;
+        };
+        i = i + 1;
+    };
+
+    return decrypted_message;
 };
 
 int main()
@@ -760,7 +847,8 @@ int main()
     string phrase_encrypted = encrypt(phrase, message);
     // maintenant il faut decrypt les messages
     string phrase_decrypted = decrypt(phrase, phrase_encrypted);
+    cout << "le message decrypté\n";
     cout << phrase_decrypted;
-
+    cout << "\n fin du programme ";
     cout << endl;
 }
