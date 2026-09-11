@@ -8,7 +8,6 @@ string encrypt(string charachters, string message)
     int i = 0;
     random_device rd;
     mt19937 gen(rd());
-    uniform_int_distribution<int> dist(0, i);
 
     vector<string> charachters_list;
     int char_len = charachters.size();
@@ -378,15 +377,14 @@ string encrypt(string charachters, string message)
         };
         if (encrypted_message[i] == 'l')
         {
-            uniform_int_distribution<int> dist_c(0, dict_list[c_index].size() - 1);
-            num = dist_c(gen);
+            uniform_int_distribution<int> dist_l(0, dict_list[l_index].size() - 1);
+            num = dist_l(gen);
             encrypted_clf = encrypted_clf + dict_list[l_index][num];
         };
         if (encrypted_message[i] == 'f')
         {
-
-            uniform_int_distribution<int> dist_c(0, dict_list[c_index].size() - 1);
-            num = dist_c(gen);
+            uniform_int_distribution<int> dist_f(0, dict_list[f_index].size() - 1);
+            num = dist_f(gen);
             encrypted_clf = encrypted_clf + dict_list[f_index][num];
         };
         i = i + 1;
