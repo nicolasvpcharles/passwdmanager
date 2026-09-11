@@ -347,7 +347,8 @@ string encrypt(string charachters, string message)
 
             a = a + 1;
         };
-        encrypted_message = encrypted_message + morse[a];
+        encrypted_message = encrypted_message + morse[temp_char_index];
+
         i = i + 1;
     };
     // apres il va falloir faire une autre oucle qui va faire un autre string (oui encore) et y ajouter des elements de la bibliotheque clf
@@ -382,7 +383,7 @@ string encrypt(string charachters, string message)
         i = i + 1;
     };
 
-    return dict_list[1];
+    return encrypted_clf;
 };
 //
 // Fonction de décryptage
@@ -693,6 +694,13 @@ string decrypt(string charachters, string message)
     // maintenant il va faloir faire l inverse de ce que on a fait on va prendre les charachteres dict et il va falloir les convertirs en c l f
     i = 0;
     // je fait une premiere boucle pour checker les lettres individuelement
+    //
+    //
+    //
+    string c = dict_list[c_index];
+    string l = dict_list[l_index];
+    f = dict_list[f_index];
+
     string clf_message;
     while (i != message.size())
     {
@@ -701,7 +709,7 @@ string decrypt(string charachters, string message)
         bool present = false;
         while (n != dict_list[c_index].size())
         {
-            if (message[i] == dict[n])
+            if (message[i] == c[n])
             {
                 clf_message = clf_message + "c";
                 present = true;
@@ -714,7 +722,7 @@ string decrypt(string charachters, string message)
         while (n != dict_list[l_index].size())
         {
 
-            if (message[i] == dict[n])
+            if (message[i] == l[n])
             {
                 clf_message = clf_message + "l";
                 present = true;
@@ -724,10 +732,10 @@ string decrypt(string charachters, string message)
         };
 
         n = 0;
-        while (n != dict_list[l_index].size())
+        while (n != dict_list[f_index].size())
         {
 
-            if (message[i] == dict[n])
+            if (message[i] == f[n])
             {
                 clf_message = clf_message + "f";
                 present = true;
