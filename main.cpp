@@ -1,11 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <random>
 using namespace std;
-string encrypt(string charachters)
+string encrypt(string charachters, string message)
 {
-    vector<string> charachters_list;
     int i = 0;
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<int> dist(0, i);
+
+    vector<string> charachters_list;
     int char_len = charachters.size();
     string temp_char;
 
@@ -207,20 +212,32 @@ string encrypt(string charachters)
     i = 0;
     string f = dict_list[shortest_dict];
     // je vais mtn attribuer les autres elements
-    if (shortest_dict = 0)
+    int c_index;
+    int l_index;
+    int f_index;
+    if (shortest_dict == 0)
     {
         string c = dict_list[1];
         string t = dict_list[2];
+        c_index = 1;
+        l_index = 2;
+        f_index = 0;
     };
-    if (shortest_dict = 1)
+    if (shortest_dict == 1)
     {
         string c = dict_list[0];
         string t = dict_list[2];
+        c_index = 0;
+        l_index = 2;
+        f_index = 1;
     };
-    if (shortest_dict = 2)
+    if (shortest_dict == 2)
     {
         string c = dict_list[0];
         string t = dict_list[1];
+        c_index = 0;
+        l_index = 1;
+        f_index = 2;
     };
     //
     // code generer par ia car ça fait 3 jours que je galere a faire une fonction qui marche
@@ -313,16 +330,80 @@ string encrypt(string charachters)
         "clllllf", "cllllcf", "clllclf", "clllccf",
         "cllcllf"};
 
-    // le return je dois retourner le output dedans
+    // maintenant que j ai le dictionnaire pr encrypt
+    // il va falloir faire une boucle qui prend les charachters
+    // une autre qui va regarder a quel index la lettre est
+    // et a la fin il va falloir ajouter a un autre string les lettres clf ajoutées
+    //
+    i = 0;
+    string encrypted_message;
+    while (i != message.size())
+    {
+        // emplacement de la 2eme boucle
+        int a = 0;
+        int temp_char_index;
+        while (a != dict.size())
+        {
+
+            if (dict[a] == message[i])
+            {
+                temp_char_index = a;
+                break;
+                // je break car j ai trouvé l index a #optimisation
+            };
+
+            a = a + 1;
+        };
+        encrypted_message = encrypted_message + morse[a];
+        i = i + 1;
+    };
+    // apres il va falloir faire une autre oucle qui va faire un autre string (oui encore) et y ajouter des elements de la bibliotheque clf
+    //  le return je dois retourner le output dedans
+    cout << "\n\n";
+    cout << "encrypted message :  " << encrypted_message;
+    // maintenant que j ai les message en clf je vais maintenant encrypter les messages grace aux 3 bibliotheques
+    // il va falloir faire une boucle seulement trouver si c est un c l ou f et apres les remplacer par un char aléatoire dans la bibliotheque
+    i = 0;
+    string encrypted_clf;
+    int num;
+    while (i != encrypted_message.size())
+    {
+
+        if (encrypted_message[i] == 'c')
+        {
+            uniform_int_distribution<int> dist_c(0, dict_list[c_index].size() - 1);
+            num = dist_c(gen);
+
+            encrypted_clf = encrypted_clf + dict_list[c_index][num];
+        };
+        if (encrypted_message[i] == 'l')
+        {
+            uniform_int_distribution<int> dist_c(0, dict_list[c_index].size() - 1);
+            num = dist_c(gen);
+            encrypted_clf = encrypted_clf + dict_list[l_index][num];
+        };
+        if (encrypted_message[i] == 'f')
+        {
+
+            uniform_int_distribution<int> dist_c(0, dict_list[c_index].size() - 1);
+            num = dist_c(gen);
+            encrypted_clf = encrypted_clf + dict_list[f_index][num];
+        };
+        i = i + 1;
+    };
+    cout << "\n\n\n";
+    cout << "le message encrypté :  " << encrypted_clf;
     return dict_list[1];
 };
 
 int main()
 {
     string phrase;
+    string message;
     getline(cin, phrase);
-
-    phrase = encrypt(phrase);
+    cout << "type the message you want to encrypt : ";
+    getline(cin, message);
+    phrase = encrypt(phrase, message);
 
     cout << endl;
 }
