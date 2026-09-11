@@ -125,20 +125,6 @@ string encrypt(string charachters, string message)
 
     i = 0;
 
-    while (i != dict_list.size())
-    {
-        cout << i;
-        cout << dict_list[i];
-        cout << "\n";
-        // Ajouter un espace entre les groupes
-        if (i != dict_list.size() - 1)
-        {
-            cout << " ";
-        }
-
-        i = i + 1;
-    }
-
     //
     // maintenant il faut trouver les differentes lettres qui irons en plus dans le dictionnaire
     //
@@ -521,20 +507,6 @@ string decrypt(string charachters, string message)
 
     i = 0;
 
-    while (i != dict_list.size())
-    {
-        cout << i;
-        cout << dict_list[i];
-        cout << "\n";
-        // Ajouter un espace entre les groupes
-        if (i != dict_list.size() - 1)
-        {
-            cout << " ";
-        }
-
-        i = i + 1;
-    }
-
     //
     // maintenant il faut trouver les differentes lettres qui irons en plus dans le dictionnaire
     //
@@ -596,7 +568,6 @@ string decrypt(string charachters, string message)
 
         n = n + 1;
     };
-    cout << "shortest dict index: " << shortest_dict << "name: " << dict_list[shortest_dict];
     // maintenant que je connais le shortest dict je vais faire une fontion qui va m aider a pouvoir trouver le meilleur ordre
     // je vais faire pr que ça prenne le max de charachters vers la droite juque l arrivée de un autre éléemnt qui est dans la liste des char uniques
     // dict = dicti_list
@@ -682,11 +653,6 @@ string decrypt(string charachters, string message)
 
             n++;
         }
-    }
-
-    for (int i = 0; i < dict_list.size(); i++)
-    {
-        cout << i << ": " << dict_list[i] << endl;
     }
     //
     //
@@ -842,10 +808,13 @@ int main()
     string phrase;
     string message;
     getline(cin, phrase);
+    //il va faloir verifier l eligibilité du message
     cout << "type the message you want to encrypt : ";
     getline(cin, message);
     string phrase_encrypted = encrypt(phrase, message);
+    //
     // maintenant il faut decrypt les messages
+    //
     string phrase_decrypted = decrypt(phrase, phrase_encrypted);
     cout << "le message decrypté\n";
     cout << phrase_decrypted;
