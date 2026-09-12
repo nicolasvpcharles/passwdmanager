@@ -834,7 +834,7 @@ string generate_password()
     int num;
     random_device rd;
     mt19937 gen(rd());
-    while (i != 7)
+    while (i != 5)
     {
         // ici apres il va juste faloir choisir des elements aleatoire dans le vecteur lettres  et c est tt
         uniform_int_distribution<int> dist(0, dict_charachters.size() - 1);
@@ -882,7 +882,7 @@ int main()
         string website;
         // faut encrypt un nouveau mdp
         cin.ignore();
-        cout << "Write the website where you use the password";
+        cout << "Write the website where you use the password \n:";
         getline(cin, website);
         string new_password = generate_password();
         // je vais re encrypter le mdp pr que il soit dur a decrypter apres
@@ -894,34 +894,74 @@ int main()
         decrypted_base = decrypted_base2;
         new_password = encrypt(decrypted_base2, new_password);
         // maintenant que j ai le mdp et le site je vais mtn faire pour le notter dans la base de donnée et ecrire site: mot de passe
-        ifstream readfile("file/passwd.txt");
+        ifstream readfile("files/passwd.txt");
         string passwd_temp;
         getline(readfile, passwd_temp);
-        ofstream writefile("file/passwd.txt");
+        ofstream writefile("files/passwd.txt", ios::app);
         // mtn il faut ecrire ds le fichier texte
         string new_password_encrypted = encrypt(decrypted_base, new_password);
-        writefile << passwd_temp << ":" << new_password_encrypted << "\\";
+        writefile << passwd_temp << website << ":" << new_password_encrypted << "\\";
     };
     // maintenant j ajoute l option pour prendre les mdp
     if (choice == "3")
     {
         //pour ça je vais devoir faire une boucle pour split les bails grace au char \ 
 //faut ouvrir le fichier des mdp
-        ifstream readfile("file/passwd.txt");
+        ifstream readfile("files/passwd.txt");
         string chars;
         getline(readfile, chars);
 
         int i = 0;
         string temp_char;
-        vector <string> domains;
-        vector<string>passwords;
+        vector<string> domains;
+        vector<string> passwords;
+        bool domain_bool = true;
         while (i != chars.size())
         {
-            //pour cette boucle il va faloir utiliser comme delimiteurs entre domaine et mdp : et entre mdp et dommaine \ 
+            if (chars[i] == ':')
+            {
+                if (domain_bool == true)
+                {
+                    domains.push_back(temp_char);
+                    temp_char = "";
+                    domain_bool = false;
+                };
+            }
+            else if (chars[i] == '\\')
+            {
+                if (domain_bool == false)
+                {
+                    passwords.push_back(temp_char);
+                    temp_char = "";
+                    domain_bool = true;
+                };
+            }
+            else
+            {
+                temp_char = temp_char + chars[i];
+            }
+
+            i++;
+        }
+        // maintenant il va falloir faire une boucle while
+        i = 0;
+        while (i != domains.size())
+        {
+            cout << i + 1 << "." << domains[i];
 
             i = i + 1;
         };
+        int domain_choice;
+        cin >> domain_choice;
+        if (domain_choice > domains.size() + 1)
+        {
 
-        cout << "\\";
+            cout << "you chose a number to high try again \n ";
+        }
+        else
+        {
+            cout << "votre mot de passe est \n ";
+            cout << passwords[domain_choice - 1];
+        };
     };
 };
