@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <iostream>
+#include <fstream>
 using namespace std;
 string encrypt(string charachters, string message)
 {
@@ -394,7 +396,6 @@ string decrypt(string charachters, string message)
     int char_len = charachters.size();
     string temp_char;
     // je vais mettre des cout pr debuger plus simplement
-    cout << "-\n-\n-\n-\n-\n-\n";
     while (i != char_len)
     {
         if (charachters[i] == ' ')
@@ -802,22 +803,41 @@ string decrypt(string charachters, string message)
 
     return decrypted_message;
 };
+string check_passwd_validity(string passwd)
+{
+    return passwd;
+};
 
 int main()
 {
-    string phrase;
-    string message;
-    getline(cin, phrase);
-    //il va faloir verifier l eligibilité du message
-    cout << "type the message you want to encrypt : ";
-    getline(cin, message);
-    string phrase_encrypted = encrypt(phrase, message);
-    //
-    // maintenant il faut decrypt les messages
-    //
-    string phrase_decrypted = decrypt(phrase, phrase_encrypted);
-    cout << "le message decrypté\n";
-    cout << phrase_decrypted;
-    cout << "\n fin du programme ";
-    cout << endl;
-}
+    string default_encrypt_password = "le chat bleu mange le chien";
+    // ouvrir la phrase de base et l ecrypter dans le fichier
+    ifstream fichier("files/passwd.txt");
+    string password;
+    getline(fichier, password);
+    fichier.close();
+    // maintenant je vais faire le gui du terminal
+    cout << "NICO VP password manager \n\nWhat do you want to do \n   1.Change the default encrypt password\n     2.Encrypt a new password\n      3.Search a password\n:";
+    string choice;
+    cin >> choice;
+    if (choice == "1")
+    {
+        cout << "\n\nChange the default encrypt password\n:";
+        string choice_password_change;
+        // il faut mettre cinignore pour que ça choisisse aussi apres le nouveau mdp
+        cin.ignore();
+        getline(cin, choice_password_change);
+        string passwd_check = check_passwd_validity(choice_password_change);
+        // ici apres il va faloir ajouter une fonction de check pour verifier la validité du mdp
+        // pour verifier l eligibilité il faut que il y ait au minimum une lettre unique a chaque 2 mots
+
+        choice_password_change = encrypt(default_encrypt_password, choice_password_change);
+
+        ofstream fichier("files/dpasswd.txt");
+        fichier << choice_password_change;
+        fichier.close();
+        // je vais juste afficher une confirmation de changement de mdp
+        cout << "le changement de mot de passe de base confirmée";
+    };
+//maintenan il va faloir ajouter la fonction de mettre des mots de passes liées aux sites
+};
