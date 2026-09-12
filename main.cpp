@@ -807,7 +807,44 @@ string check_passwd_validity(string passwd)
 {
     return passwd;
 };
+string generate_password()
+{
+    // pour generer le mdp il faut juste prendre quelques charachters et les encrypter pour encore plus de randomness
+    int i = 0;
+    vector<char> dict_charachters = {
+        // minuscules
+        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+        'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 
+        // majuscules
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+
+        // chiffres
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+
+        // caractères spéciaux ASCII
+        ' ', '!', '"', '#', '$', '%', '&',
+        '(', ')', '*', '+', ',', '-', '.', '/',
+        ':', ';', '<', '=', '>', '?', '@',
+        '[', ']', '^', '_', '`',
+        '{', '|', '}', '~'};
+    string password;
+    char n;
+    int num;
+    random_device rd;
+    mt19937 gen(rd());
+    while (i != 7)
+    {
+        // ici apres il va juste faloir choisir des elements aleatoire dans le vecteur lettres  et c est tt
+        uniform_int_distribution<int> dist(0, dict_charachters.size() - 1);
+        num = dist(gen);
+        n = dict_charachters[num];
+        password = password + n;
+        i = i + 1;
+    };
+    return password;
+};
 int main()
 {
     string default_encrypt_password = "le chat bleu mange le chien";
@@ -837,7 +874,54 @@ int main()
         fichier << choice_password_change;
         fichier.close();
         // je vais juste afficher une confirmation de changement de mdp
-        cout << "le changement de mot de passe de base confirmée";
+        cout << "password change succecfull";
     };
-//maintenan il va faloir ajouter la fonction de mettre des mots de passes liées aux sites
+    // maintenan il va faloir ajouter la fonction de mettre des mots de passes liées aux sites
+    if (choice == "2")
+    {
+        string website;
+        // faut encrypt un nouveau mdp
+        cin.ignore();
+        cout << "Write the website where you use the password";
+        getline(cin, website);
+        string new_password = generate_password();
+        // je vais re encrypter le mdp pr que il soit dur a decrypter apres
+        string decrypted_base;
+        ifstream file("files/dpasswd.txt");
+        getline(file, decrypted_base);
+        file.close();
+        string decrypted_base2 = decrypt(default_encrypt_password, decrypted_base);
+        decrypted_base = decrypted_base2;
+        new_password = encrypt(decrypted_base2, new_password);
+        // maintenant que j ai le mdp et le site je vais mtn faire pour le notter dans la base de donnée et ecrire site: mot de passe
+        ifstream readfile("file/passwd.txt");
+        string passwd_temp;
+        getline(readfile, passwd_temp);
+        ofstream writefile("file/passwd.txt");
+        // mtn il faut ecrire ds le fichier texte
+        string new_password_encrypted = encrypt(decrypted_base, new_password);
+        writefile << passwd_temp << ":" << new_password_encrypted << "\\";
+    };
+    // maintenant j ajoute l option pour prendre les mdp
+    if (choice == "3")
+    {
+        //pour ça je vais devoir faire une boucle pour split les bails grace au char \ 
+//faut ouvrir le fichier des mdp
+        ifstream readfile("file/passwd.txt");
+        string chars;
+        getline(readfile, chars);
+
+        int i = 0;
+        string temp_char;
+        vector <string> domains;
+        vector<string>passwords;
+        while (i != chars.size())
+        {
+            //pour cette boucle il va faloir utiliser comme delimiteurs entre domaine et mdp : et entre mdp et dommaine \ 
+
+            i = i + 1;
+        };
+
+        cout << "\\";
+    };
 };
